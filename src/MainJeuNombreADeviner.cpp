@@ -17,7 +17,13 @@ using namespace std;
 int main()
 {
     cout << "Vous allez jouer pour deviner un nombre secret" << endl;
-
+    int a;
+    a = TirerNombreMystere();
+    cout << a << endl;
+    int num = 8;
+    TJoueur j;
+    InitJoueur(j, "Parrat");
+    JouerPartie(j, num);
     return 0;
 }
 
