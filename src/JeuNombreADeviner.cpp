@@ -22,7 +22,7 @@ using namespace std;
 // Paramètres de sortie : joueur
 // Paramètres d'entrée/sortie :
 
-void InitJoueur(TJoueur& joueurAcreer, string un_nom)
+void InitJoueur(TJoueur &joueurAcreer, string un_nom)
 {
     joueurAcreer.nom = un_nom;
     joueurAcreer.nbPartiesJouees = 0;
@@ -55,20 +55,31 @@ int TirerNombreMystere()
 
 void JouerPartie(TJoueur& un_joueur, int nombreADeviner)
 {
-    cout << "Trouver le nombre mystère : " << endl;
     int var, compteur = 0;
+    bool win = false;
     while ((var != nombreADeviner) && (compteur < 4)) {
         cin >> var;
         if (var > nombreADeviner) {
-            cout << "Le nombre est inférieur, veuillez retenter" << endl;
+            cout << "Le nombre est inferieur, veuillez retenter" << endl;
             }
         else if (var < nombreADeviner) {
-            cout << "Le nombre est supérieur" << endl;
+            cout << "Le nombre est superieur, veuillez rententer" << endl;
         }
+
         compteur = compteur + 1;
-        printf("compteur : %d\n", compteur);
+
     }
-    cout << endl << "Bravo ! Vous avez trouve la bonne valeur en : " << compteur << " essai(s)" << endl;
+    if (var == nombreADeviner) {
+            win = true;
+            cout << endl << "Bravo ! Vous avez trouve la bonne valeur en : " << compteur << " essai(s)" << endl;
+            MajResultatsJoueur(un_joueur, compteur, win);
+    }
+    else {
+            cout << endl << "Mince, vous avez perdu en : " << compteur << " essai(s)" << endl;
+            MajResultatsJoueur(un_joueur, compteur, win);
+    }
+
+
 }
 
 // Nom : MajResultatsJoueur
@@ -77,9 +88,14 @@ void JouerPartie(TJoueur& un_joueur, int nombreADeviner)
 // Paramètres de sortie:
 // Paramètres d'entrée/sortie : joueur
 
-void MajResultatsJoueur(TJoueur joueur, int nbEssais, bool gagne)
+void MajResultatsJoueur(TJoueur &joueur, int nbEssais, bool gagne)
 {
-   // A COMPLETER
+   joueur.nbTentatives = joueur.nbTentatives + nbEssais;
+   if (gagne == true) {
+        joueur.nbPartiesGagnees++;
+   }
+   joueur.nbPartiesJouees++;
+
 }
 
 
@@ -87,13 +103,15 @@ void MajResultatsJoueur(TJoueur joueur, int nbEssais, bool gagne)
 // Rôle : indique les résultats du joueur passé en paramètre
 //        le nombre de parties gagnées, le nombre de parties perdues, le nombre d'essais total
 //        La fonction N'affiche PAS les informations à l'écran
-// Paramètres d'entrée: joueur, nbsucces nbechec nbessais.
-// Paramètres de sortie: aucun
+// Paramètres d'entrée: joueur,
+// Paramètres de sortie: anbsucces nbechec nbessais.
 // Paramètres d'entrée/sortie : aucun
 
 void ResultatsJoueur(TJoueur joueur, int& nbsucces, int& nbechec, int& nbessais)
 {
-    // A COMPLETER
+    nbsucces = joueur.nbPartiesGagnees;
+    nbechec = joueur.nbPartiesJouees - joueur.nbPartiesGagnees;
+    nbessais = joueur.nbTentatives;
 }
 
 // Nom :Nom
